@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  jenkins:
+    build: ./jenkins
+    container_name: jenkins
+    user: root
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./jenkins/init.groovy.d:/var/jenkins_home/init.groovy.d:ro
+    networks:
+      - cicdnet
+
+networks:
+  cicdnet:
+
+volumes:
+  jenkins_home:
